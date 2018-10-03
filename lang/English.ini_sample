@@ -1,0 +1,16 @@
+[Translation]
+general=General
+settings=Settings
+about=About
+starting=Start...
+logfiles=Log files
+language=Language
+browser_at_startup=Open browser at startup
+hide_at_startup=Hide USBWebserver at startup
+root_dir=Root dir
+port_apache=Port apache
+port_mysql=Port MySQL
+save=Save
+exit=Close
+about_text= USBWebserver is a Border-IT & Scratch IS product//Made by Leon de Vries////Designed by Bart Boerendans
+
