@@ -1,4 +1,4 @@
-# USBWebServer V8.6.2
+# USBWebServer V8.6.1
 Most light weight local portable web server with Apache, PHP, MySQL and PHPMyAdmin for Windows on the Web. Just unzip enywhere (including USB flash drive), run and start using.
 
 # Change log
