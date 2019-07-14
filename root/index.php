@@ -30,7 +30,7 @@
 		<div id="content">
 			<div id="contentleft">
 
-				<h1>USBWebserver V8.6.2</h1>
+				<h1>USBWebserver V8.6.1</h1>
 				<p>
 					<ul>
 						<li>14 different languages</li>
