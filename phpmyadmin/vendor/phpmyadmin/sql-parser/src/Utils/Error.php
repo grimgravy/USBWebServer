@@ -41,7 +41,7 @@ class Error
                         $err->getMessage(),
                         $err->getCode(),
                         $err->ch,
-                        $err->pos,
+                        $err->pos
                     );
                 }
             } elseif ($obj instanceof Parser) {
@@ -50,7 +50,7 @@ class Error
                         $err->getMessage(),
                         $err->getCode(),
                         $err->token->token,
-                        $err->token->position,
+                        $err->token->position
                     );
                 }
             }

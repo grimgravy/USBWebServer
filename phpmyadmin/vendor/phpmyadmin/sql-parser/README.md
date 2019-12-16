@@ -10,6 +10,7 @@ A validating SQL lexer and parser with a focus on MySQL dialect.
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phpmyadmin/sql-parser/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpmyadmin/sql-parser/?branch=master)
 [![Translation status](https://hosted.weblate.org/widgets/phpmyadmin/-/svg-badge.svg)](https://hosted.weblate.org/engage/phpmyadmin/?utm_source=widget)
 [![Packagist](https://img.shields.io/packagist/dt/phpmyadmin/sql-parser.svg)](https://packagist.org/packages/phpmyadmin/sql-parser)
+[![Open Source Helpers](https://www.codetriage.com/phpmyadmin/sql-parser/badges/users.svg)](https://www.codetriage.com/phpmyadmin/sql-parser)
 
 ## Installation
 
@@ -46,6 +47,12 @@ Command line utility to tokenize SQL query:
 ./vendor/bin/tokenize-query --query "SELECT 1"
 ```
 
+All commands are able to parse input from stdin (standard in), such as:
+
+```sh
+echo "SELECT 1" | ./vendor/bin/highlight-query
+cat example.sql | ./vendor/bin/lint-query
+```
 ### Formatting SQL query
 
 ```php

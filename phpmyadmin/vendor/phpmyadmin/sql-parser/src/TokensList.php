@@ -44,7 +44,7 @@ class TokensList implements \ArrayAccess
      */
     public function __construct(array $tokens = array(), $count = -1)
     {
-        if (!empty($tokens)) {
+        if (! empty($tokens)) {
             $this->tokens = $tokens;
             if ($count === -1) {
                 $this->count = count($tokens);

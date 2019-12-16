@@ -27,11 +27,20 @@ class DataType extends Component
      */
     public static $DATA_TYPE_OPTIONS = array(
         'BINARY' => 1,
-        'CHARACTER SET' => array(2, 'var'),
-        'CHARSET' => array(2, 'var'),
-        'COLLATE' => array(3, 'var'),
+        'CHARACTER SET' => array(
+            2,
+            'var',
+        ),
+        'CHARSET' => array(
+            2,
+            'var',
+        ),
+        'COLLATE' => array(
+            3,
+            'var',
+        ),
         'UNSIGNED' => 4,
-        'ZEROFILL' => 5,
+        'ZEROFILL' => 5
     );
 
     /**
@@ -119,7 +128,7 @@ class DataType extends Component
 
             if ($state === 0) {
                 $ret->name = strtoupper($token->value);
-                if (($token->type !== Token::TYPE_KEYWORD) || (!($token->flags & Token::FLAG_KEYWORD_DATA_TYPE))) {
+                if (($token->type !== Token::TYPE_KEYWORD) || (! ($token->flags & Token::FLAG_KEYWORD_DATA_TYPE))) {
                     $parser->error('Unrecognized data type.', $token);
                 }
                 $state = 1;
@@ -153,11 +162,11 @@ class DataType extends Component
      */
     public static function build($component, array $options = array())
     {
-        $name = (empty($options['lowercase'])) ?
+        $name = empty($options['lowercase']) ?
             $component->name : strtolower($component->name);
 
         $parameters = '';
-        if (!empty($component->parameters)) {
+        if (! empty($component->parameters)) {
             $parameters = '(' . implode(',', $component->parameters) . ')';
         }
 

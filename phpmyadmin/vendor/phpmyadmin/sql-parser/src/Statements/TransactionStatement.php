@@ -70,7 +70,7 @@ class TransactionStatement extends Statement
         'AND NO CHAIN' => 3,
         'AND CHAIN' => 3,
         'RELEASE' => 4,
-        'NO RELEASE' => 4,
+        'NO RELEASE' => 4
     );
 
     /**
@@ -82,12 +82,12 @@ class TransactionStatement extends Statement
         parent::parse($parser, $list);
 
         // Checks the type of this query.
-        if (($this->options->has('START TRANSACTION'))
-            || ($this->options->has('BEGIN'))
+        if ($this->options->has('START TRANSACTION')
+            || $this->options->has('BEGIN')
         ) {
             $this->type = self::TYPE_BEGIN;
-        } elseif (($this->options->has('COMMIT'))
-            || ($this->options->has('ROLLBACK'))
+        } elseif ($this->options->has('COMMIT')
+            || $this->options->has('ROLLBACK')
         ) {
             $this->type = self::TYPE_END;
         }

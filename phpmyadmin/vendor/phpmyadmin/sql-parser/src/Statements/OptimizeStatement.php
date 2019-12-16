@@ -30,7 +30,7 @@ class OptimizeStatement extends Statement
         'TABLE' => 1,
 
         'NO_WRITE_TO_BINLOG' => 2,
-        'LOCAL' => 3,
+        'LOCAL' => 3
     );
 
     /**

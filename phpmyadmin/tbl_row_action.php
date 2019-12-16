@@ -5,29 +5,30 @@
  *
  * @package PhpMyAdmin
  */
-use PMA\libraries\URL;
-use PMA\libraries\Response;
+
+use PhpMyAdmin\Response;
+use PhpMyAdmin\Sql;
+use PhpMyAdmin\Url;
 
 /**
  *
  */
 require_once 'libraries/common.inc.php';
-require_once 'libraries/sql.lib.php';
 
-if (isset($_REQUEST['submit_mult'])) {
-    $submit_mult = $_REQUEST['submit_mult'];
+if (isset($_POST['submit_mult'])) {
+    $submit_mult = $_POST['submit_mult'];
     // workaround for IE problem:
-} elseif (isset($_REQUEST['submit_mult_delete_x'])) {
+} elseif (isset($_POST['submit_mult_delete_x'])) {
     $submit_mult = 'row_delete';
-} elseif (isset($_REQUEST['submit_mult_change_x'])) {
+} elseif (isset($_POST['submit_mult_change_x'])) {
     $submit_mult = 'row_edit';
-} elseif (isset($_REQUEST['submit_mult_export_x'])) {
+} elseif (isset($_POST['submit_mult_export_x'])) {
     $submit_mult = 'row_export';
 }
 
 // If the 'Ask for confirmation' button was pressed, this can only come
 // from 'delete' mode, so we set it straight away.
-if (isset($_REQUEST['mult_btn'])) {
+if (isset($_POST['mult_btn'])) {
     $submit_mult = 'row_delete';
 }
 
@@ -63,9 +64,9 @@ default:
 
 if (!empty($submit_mult)) {
 
-    if (isset($_REQUEST['goto'])
-        && (! isset($_REQUEST['rows_to_delete'])
-        || ! is_array($_REQUEST['rows_to_delete']))
+    if (isset($_POST['goto'])
+        && (! isset($_POST['rows_to_delete'])
+        || ! is_array($_POST['rows_to_delete']))
     ) {
         $response = Response::getInstance();
         $response->setRequestStatus(false);
@@ -75,7 +76,7 @@ if (!empty($submit_mult)) {
     switch($submit_mult) {
     /** @noinspection PhpMissingBreakStatementInspection */
     case 'row_copy':
-        $_REQUEST['default_action'] = 'insert';
+        $_POST['default_action'] = 'insert';
         // no break to allow for fallthough
     case 'row_edit':
         // As we got the rows to be edited from the
@@ -83,10 +84,10 @@ if (!empty($submit_mult)) {
         // indicating WHERE clause. Then we build the array which is used
         // for the tbl_change.php script.
         $where_clause = array();
-        if (isset($_REQUEST['rows_to_delete'])
-            && is_array($_REQUEST['rows_to_delete'])
+        if (isset($_POST['rows_to_delete'])
+            && is_array($_POST['rows_to_delete'])
         ) {
-            foreach ($_REQUEST['rows_to_delete'] as $i => $i_where_clause) {
+            foreach ($_POST['rows_to_delete'] as $i => $i_where_clause) {
                 $where_clause[] = $i_where_clause;
             }
         }
@@ -103,10 +104,10 @@ if (!empty($submit_mult)) {
         // indicating WHERE clause. Then we build the array which is used
         // for the tbl_change.php script.
         $where_clause = array();
-        if (isset($_REQUEST['rows_to_delete'])
-            && is_array($_REQUEST['rows_to_delete'])
+        if (isset($_POST['rows_to_delete'])
+            && is_array($_POST['rows_to_delete'])
         ) {
-            foreach ($_REQUEST['rows_to_delete'] as $i => $i_where_clause) {
+            foreach ($_POST['rows_to_delete'] as $i => $i_where_clause) {
                 $where_clause[] = $i_where_clause;
             }
         }
@@ -118,8 +119,8 @@ if (!empty($submit_mult)) {
     default:
         $action = 'tbl_row_action.php';
         $err_url = 'tbl_row_action.php'
-            . URL::getCommon($GLOBALS['url_params']);
-        if (! isset($_REQUEST['mult_btn'])) {
+            . Url::getCommon($GLOBALS['url_params']);
+        if (! isset($_POST['mult_btn'])) {
             $original_sql_query = $sql_query;
             if (! empty($url_query)) {
                 $original_url_query = $url_query;
@@ -128,14 +129,14 @@ if (!empty($submit_mult)) {
         include 'libraries/mult_submits.inc.php';
         $_url_params = $GLOBALS['url_params'];
         $_url_params['goto'] = 'tbl_sql.php';
-        $url_query = URL::getCommon($_url_params);
+        $url_query = Url::getCommon($_url_params);
 
 
         /**
          * Show result of multi submit operation
          */
         // sql_query is not set when user does not confirm multi-delete
-        if ((! empty($submit_mult) || isset($_REQUEST['mult_btn']))
+        if ((! empty($submit_mult) || isset($_POST['mult_btn']))
             && ! empty($sql_query)
         ) {
             $disp_message = __('Your SQL query has been executed successfully.');
@@ -151,7 +152,8 @@ if (!empty($submit_mult)) {
         }
 
         $active_page = 'sql.php';
-        PMA_executeQueryAndSendQueryResponse(
+        $sql = new Sql();
+        $sql->executeQueryAndSendQueryResponse(
             null, // analyzed_sql_results
             false, // is_gotofile
             $db, // db

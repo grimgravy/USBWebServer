@@ -25,6 +25,9 @@ class RestoreStatement extends MaintenanceStatement
     public static $OPTIONS = array(
         'TABLE' => 1,
 
-        'FROM' => array(2, 'var'),
+        'FROM' => array(
+            2,
+            'var',
+        )
     );
 }

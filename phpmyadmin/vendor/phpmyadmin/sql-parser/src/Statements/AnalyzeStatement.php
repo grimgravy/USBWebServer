@@ -12,8 +12,8 @@ use PhpMyAdmin\SqlParser\Statement;
 /**
  * `ANALYZE` statement.
  *
- * ANALYZE [NO_WRITE_TO_BINLOG | LOCAL] TABLE
- *  tbl_name [, tbl_name] ...
+ * ANALYZE array(NO_WRITE_TO_BINLOG | LOCAL] TABLE
+ *  tbl_name array(, tbl_name] ...
  *
  * @category   Statements
  *
@@ -30,7 +30,7 @@ class AnalyzeStatement extends Statement
         'TABLE' => 1,
 
         'NO_WRITE_TO_BINLOG' => 2,
-        'LOCAL' => 3,
+        'LOCAL' => 3
     );
 
     /**

@@ -5,14 +5,16 @@
  *
  * @package PhpMyAdmin
  */
-use PMA\libraries\Response;
+use PhpMyAdmin\Relation;
+use PhpMyAdmin\Response;
+use PhpMyAdmin\Server\UserGroups;
+use PhpMyAdmin\Server\Users;
 
 require_once 'libraries/common.inc.php';
-require_once 'libraries/server_users.lib.php';
-require_once 'libraries/server_user_groups.lib.php';
 
-PMA_getRelationsParam();
-if (! $GLOBALS['cfgRelation']['menuswork']) {
+$relation = new Relation();
+$cfgRelation = $relation->getRelationsParam();
+if (! $cfgRelation['menuswork']) {
     exit;
 }
 
@@ -24,52 +26,52 @@ $scripts->addFile('server_user_groups.js');
 /**
  * Only allowed to superuser
  */
-if (! $GLOBALS['is_superuser']) {
+if (! $GLOBALS['dbi']->isSuperuser()) {
     $response->addHTML(
-        PMA\libraries\Message::error(__('No Privileges'))
+        PhpMyAdmin\Message::error(__('No Privileges'))
             ->getDisplay()
     );
     exit;
 }
 
 $response->addHTML('<div>');
-$response->addHTML(PMA_getHtmlForSubMenusOnUsersPage('server_user_groups.php'));
+$response->addHTML(Users::getHtmlForSubMenusOnUsersPage('server_user_groups.php'));
 
 /**
  * Delete user group
  */
-if (! empty($_REQUEST['deleteUserGroup'])) {
-    PMA_deleteUserGroup($_REQUEST['userGroup']);
+if (! empty($_POST['deleteUserGroup'])) {
+    UserGroups::delete($_POST['userGroup']);
 }
 
 /**
  * Add a new user group
  */
-if (! empty($_REQUEST['addUserGroupSubmit'])) {
-    PMA_editUserGroup($_REQUEST['userGroup'], true);
+if (! empty($_POST['addUserGroupSubmit'])) {
+    UserGroups::edit($_POST['userGroup'], true);
 }
 
 /**
  * Update a user group
  */
-if (! empty($_REQUEST['editUserGroupSubmit'])) {
-    PMA_editUserGroup($_REQUEST['userGroup']);
+if (! empty($_POST['editUserGroupSubmit'])) {
+    UserGroups::edit($_POST['userGroup']);
 }
 
-if (isset($_REQUEST['viewUsers'])) {
+if (isset($_POST['viewUsers'])) {
     // Display users belonging to a user group
-    $response->addHTML(PMA_getHtmlForListingUsersofAGroup($_REQUEST['userGroup']));
+    $response->addHTML(UserGroups::getHtmlForListingUsersofAGroup($_POST['userGroup']));
 }
 
-if (isset($_REQUEST['addUserGroup'])) {
+if (isset($_GET['addUserGroup'])) {
     // Display add user group dialog
-    $response->addHTML(PMA_getHtmlToEditUserGroup());
-} elseif (isset($_REQUEST['editUserGroup'])) {
+    $response->addHTML(UserGroups::getHtmlToEditUserGroup());
+} elseif (isset($_POST['editUserGroup'])) {
     // Display edit user group dialog
-    $response->addHTML(PMA_getHtmlToEditUserGroup($_REQUEST['userGroup']));
+    $response->addHTML(UserGroups::getHtmlToEditUserGroup($_POST['userGroup']));
 } else {
     // Display user groups table
-    $response->addHTML(PMA_getHtmlForUserGroupsTable());
+    $response->addHTML(UserGroups::getHtmlForUserGroupsTable());
 }
 
 $response->addHTML('</div>');

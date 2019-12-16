@@ -215,10 +215,6 @@ class Loader
     {
         if (!empty($locale)) {
             $this->locale = $locale;
-            // Set system locales as well
-            if (function_exists('setlocale')) {
-                setlocale(0, $locale);
-            }
         }
 
         return $this->locale;

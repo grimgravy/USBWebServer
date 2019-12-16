@@ -30,15 +30,42 @@ class PartitionDefinition extends Component
      * @var array
      */
     public static $OPTIONS = array(
-        'STORAGE ENGINE' => array(1, 'var'),
-        'ENGINE' => array(1, 'var'),
-        'COMMENT' => array(2, 'var'),
-        'DATA DIRECTORY' => array(3, 'var'),
-        'INDEX DIRECTORY' => array(4, 'var'),
-        'MAX_ROWS' => array(5, 'var'),
-        'MIN_ROWS' => array(6, 'var'),
-        'TABLESPACE' => array(7, 'var'),
-        'NODEGROUP' => array(8, 'var'),
+        'STORAGE ENGINE' => array(
+            1,
+            'var',
+        ),
+        'ENGINE' => array(
+            1,
+            'var',
+        ),
+        'COMMENT' => array(
+            2,
+            'var',
+        ),
+        'DATA DIRECTORY' => array(
+            3,
+            'var',
+        ),
+        'INDEX DIRECTORY' => array(
+            4,
+            'var',
+        ),
+        'MAX_ROWS' => array(
+            5,
+            'var',
+        ),
+        'MIN_ROWS' => array(
+            6,
+            'var',
+        ),
+        'TABLESPACE' => array(
+            7,
+            'var',
+        ),
+        'NODEGROUP' => array(
+            8,
+            'var',
+        )
     );
 
     /**
@@ -143,10 +170,16 @@ class PartitionDefinition extends Component
                 $ret->name = $token->value;
 
                 // Looking ahead for a 'VALUES' keyword.
-                $idx = $list->idx;
-                $list->getNext();
-                $nextToken = $list->getNext();
-                $list->idx = $idx;
+                // Loop until the end of the partition name (delimited by a whitespace)
+                while ($nextToken = $list->tokens[++$list->idx]) {
+                    if ($nextToken->type !== Token::TYPE_NONE) {
+                        break;
+                    }
+                    $ret->name .= $nextToken->value;
+                }
+                $idx = $list->idx--;
+                // Get the first token after the white space.
+                $nextToken = $list->tokens[++$idx];
 
                 $state = ($nextToken->type === Token::TYPE_KEYWORD)
                     && ($nextToken->value === 'VALUES')
@@ -165,7 +198,7 @@ class PartitionDefinition extends Component
                         $list,
                         array(
                             'parenthesesDelimited' => true,
-                            'breakOnAlias' => true,
+                            'breakOnAlias' => true
                         )
                     );
                 }
@@ -179,7 +212,7 @@ class PartitionDefinition extends Component
                         $parser,
                         $list,
                         array(
-                            'type' => 'PhpMyAdmin\\SqlParser\\Components\\PartitionDefinition',
+                            'type' => 'PhpMyAdmin\\SqlParser\\Components\\PartitionDefinition'
                         )
                     );
                     ++$list->idx;
@@ -214,7 +247,7 @@ class PartitionDefinition extends Component
         return trim(
             'PARTITION ' . $component->name
             . (empty($component->type) ? '' : ' VALUES ' . $component->type . ' ' . $component->expr . ' ')
-            . ((!empty($component->options) && !empty($component->type)) ? '' : ' ') . $component->options . $subpartitions
+            . ((! empty($component->options) && ! empty($component->type)) ? '' : ' ') . $component->options . $subpartitions
         );
     }
 }

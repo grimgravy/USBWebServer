@@ -5,26 +5,41 @@
  *
  * @package PhpMyAdmin-Designer
  */
-use PMA\libraries\Response;
+use PhpMyAdmin\Database\Designer;
+use PhpMyAdmin\Database\Designer\Common;
+use PhpMyAdmin\Response;
 
 require_once 'libraries/common.inc.php';
-require_once 'libraries/pmd_common.php';
-require_once 'libraries/db_designer.lib.php';
 
 $response = Response::getInstance();
 
-if (isset($_REQUEST['dialog'])) {
+$databaseDesigner = new Designer();
+$designerCommon = new Common();
 
-    if ($_REQUEST['dialog'] == 'edit') {
-        $html = PMA_getHtmlForEditOrDeletePages($GLOBALS['db'], 'editPage');
-    } else if ($_REQUEST['dialog'] == 'delete') {
-        $html = PMA_getHtmlForEditOrDeletePages($GLOBALS['db'], 'deletePage');
-    } else if ($_REQUEST['dialog'] == 'save_as') {
-        $html = PMA_getHtmlForPageSaveAs($GLOBALS['db']);
-    } else if ($_REQUEST['dialog'] == 'export') {
-        include_once 'libraries/plugin_interface.lib.php';
-        $html = PMA_getHtmlForSchemaExport(
-            $GLOBALS['db'], $_REQUEST['selected_page']
+if (isset($_POST['dialog'])) {
+
+    if ($_POST['dialog'] == 'edit') {
+        $html = $databaseDesigner->getHtmlForEditOrDeletePages($_POST['db'], 'editPage');
+    } elseif ($_POST['dialog'] == 'delete') {
+        $html = $databaseDesigner->getHtmlForEditOrDeletePages($_POST['db'], 'deletePage');
+    } elseif ($_POST['dialog'] == 'save_as') {
+        $html = $databaseDesigner->getHtmlForPageSaveAs($_POST['db']);
+    } elseif ($_POST['dialog'] == 'export') {
+        $html = $databaseDesigner->getHtmlForSchemaExport(
+            $_POST['db'], $_POST['selected_page']
+        );
+    } elseif ($_POST['dialog'] == 'add_table') {
+        // Pass the db and table to the getTablesInfo so we only have the table we asked for
+        $script_display_field = $designerCommon->getTablesInfo($_POST['db'], $_POST['table']);
+        $tab_column = $designerCommon->getColumnsInfo($script_display_field);
+        $tables_all_keys = $designerCommon->getAllKeys($script_display_field);
+        $tables_pk_or_unique_keys = $designerCommon->getPkOrUniqueKeys($script_display_field);
+
+        $html = $databaseDesigner->getDatabaseTables(
+            $_POST['db'],
+            $script_display_field,
+            array(), -1, $tab_column,
+            $tables_all_keys, $tables_pk_or_unique_keys
         );
     }
 
@@ -34,48 +49,56 @@ if (isset($_REQUEST['dialog'])) {
     return;
 }
 
-if (isset($_REQUEST['operation'])) {
+if (isset($_POST['operation'])) {
 
-    if ($_REQUEST['operation'] == 'deletePage') {
-        $success = PMA_deletePage($_REQUEST['selected_page']);
+    if ($_POST['operation'] == 'deletePage') {
+        $success = $designerCommon->deletePage($_POST['selected_page']);
         $response->setRequestStatus($success);
-    } elseif ($_REQUEST['operation'] == 'savePage') {
-        if ($_REQUEST['save_page'] == 'same') {
-            $page = $_REQUEST['selected_page'];
+    } elseif ($_POST['operation'] == 'savePage') {
+        if ($_POST['save_page'] == 'same') {
+            $page = $_POST['selected_page'];
         } else { // new
-            $page = PMA_createNewPage($_REQUEST['selected_value'], $GLOBALS['db']);
+            $page = $designerCommon->createNewPage($_POST['selected_value'], $_POST['db']);
             $response->addJSON('id', $page);
         }
-        $success = PMA_saveTablePositions($page);
+        $success = $designerCommon->saveTablePositions($page);
         $response->setRequestStatus($success);
-    } elseif ($_REQUEST['operation'] == 'setDisplayField') {
-        PMA_saveDisplayField(
-            $_REQUEST['db'], $_REQUEST['table'], $_REQUEST['field']
-        );
-        $response->setRequestStatus(true);
-    } elseif ($_REQUEST['operation'] == 'addNewRelation') {
-        list($success, $message) = PMA_addNewRelation(
-            $_REQUEST['db'],
-            $_REQUEST['T1'],
-            $_REQUEST['F1'],
-            $_REQUEST['T2'],
-            $_REQUEST['F2'],
-            $_REQUEST['on_delete'],
-            $_REQUEST['on_update']
+    } elseif ($_POST['operation'] == 'setDisplayField') {
+        [
+            $success,
+            $message,
+        ] = $designerCommon->saveDisplayField(
+            $_POST['db'],
+            $_POST['table'],
+            $_POST['field']
         );
         $response->setRequestStatus($success);
         $response->addJSON('message', $message);
-    } elseif ($_REQUEST['operation'] == 'removeRelation') {
-        list($success, $message) = PMA_removeRelation(
-            $_REQUEST['T1'],
-            $_REQUEST['F1'],
-            $_REQUEST['T2'],
-            $_REQUEST['F2']
+    } elseif ($_POST['operation'] == 'addNewRelation') {
+        list($success, $message) = $designerCommon->addNewRelation(
+            $_POST['db'],
+            $_POST['T1'],
+            $_POST['F1'],
+            $_POST['T2'],
+            $_POST['F2'],
+            $_POST['on_delete'],
+            $_POST['on_update'],
+            $_POST['DB1'],
+            $_POST['DB2']
         );
         $response->setRequestStatus($success);
         $response->addJSON('message', $message);
-    } elseif ($_REQUEST['operation'] == 'save_setting_value') {
-        $success = PMA_saveDesignerSetting($_REQUEST['index'], $_REQUEST['value']);
+    } elseif ($_POST['operation'] == 'removeRelation') {
+        list($success, $message) = $designerCommon->removeRelation(
+            $_POST['T1'],
+            $_POST['F1'],
+            $_POST['T2'],
+            $_POST['F2']
+        );
+        $response->setRequestStatus($success);
+        $response->addJSON('message', $message);
+    } elseif ($_POST['operation'] == 'save_setting_value') {
+        $success = $designerCommon->saveSetting($_POST['index'], $_POST['value']);
         $response->setRequestStatus($success);
     }
 
@@ -84,30 +107,48 @@ if (isset($_REQUEST['operation'])) {
 
 require 'libraries/db_common.inc.php';
 
-$script_display_field = PMA_getTablesInfo();
-$tab_column = PMA_getColumnsInfo();
-$script_tables = PMA_getScriptTabs();
-$tables_pk_or_unique_keys = PMA_getPKOrUniqueKeys();
-$tables_all_keys = PMA_getAllKeys();
-$classes_side_menu = PMA_returnClassNamesFromMenuButtons();
+$script_display_field = $designerCommon->getTablesInfo();
 
 $display_page = -1;
 $selected_page = null;
 
-if (isset($_REQUEST['query'])) {
-    $display_page = PMA_getDefaultPage($_REQUEST['db']);
+if (isset($_GET['query'])) {
+    $display_page = $designerCommon->getDefaultPage($_GET['db']);
 } else {
-    if (! empty($_REQUEST['page'])) {
-        $display_page = $_REQUEST['page'];
+    if (! empty($_GET['page'])) {
+        $display_page = $_GET['page'];
     } else {
-        $display_page = PMA_getLoadingPage($_REQUEST['db']);
+        $display_page = $designerCommon->getLoadingPage($_GET['db']);
     }
 }
 if ($display_page != -1) {
-    $selected_page = PMA_getPageName($display_page);
+    $selected_page = $designerCommon->getPageName($display_page);
 }
-$tab_pos = PMA_getTablePositions($display_page);
-$script_contr = PMA_getScriptContr();
+$tab_pos = $designerCommon->getTablePositions($display_page);
+
+$fullTableNames = [];
+
+foreach($script_display_field as $designerTable) {
+    $fullTableNames[] = $designerTable->getDbTableString();
+}
+
+foreach($tab_pos as $position) {
+    if (! in_array($position['dbName'] . '.' . $position['tableName'], $fullTableNames)) {
+        foreach($designerCommon->getTablesInfo($position['dbName'], $position['tableName']) as $designerTable) {
+            $script_display_field[] = $designerTable;
+        }
+    }
+}
+
+
+$tab_column = $designerCommon->getColumnsInfo($script_display_field);
+$script_tables = $designerCommon->getScriptTabs($script_display_field);
+$tables_pk_or_unique_keys = $designerCommon->getPkOrUniqueKeys($script_display_field);
+$tables_all_keys = $designerCommon->getAllKeys($script_display_field);
+$classes_side_menu = $databaseDesigner->returnClassNamesFromMenuButtons();
+
+
+$script_contr = $designerCommon->getScriptContr($script_display_field);
 
 $params = array('lang' => $GLOBALS['lang']);
 if (isset($_GET['db'])) {
@@ -117,16 +158,16 @@ if (isset($_GET['db'])) {
 $response = Response::getInstance();
 $response->getFooter()->setMinimal();
 $header   = $response->getHeader();
-$header->setBodyId('pmd_body');
+$header->setBodyId('designer_body');
 
 $scripts  = $header->getScripts();
-$scripts->addFile('jquery/jquery.fullscreen.js');
-$scripts->addFile('pmd/designer_db.js');
-$scripts->addFile('pmd/designer_objects.js');
-$scripts->addFile('pmd/designer_page.js');
-$scripts->addFile('pmd/history.js');
-$scripts->addFile('pmd/move.js');
-$scripts->addFile('pmd/init.js');
+$scripts->addFile('vendor/jquery/jquery.fullscreen.js');
+$scripts->addFile('designer/database.js');
+$scripts->addFile('designer/objects.js');
+$scripts->addFile('designer/page.js');
+$scripts->addFile('designer/history.js');
+$scripts->addFile('designer/move.js');
+$scripts->addFile('designer/init.js');
 
 list(
     $tables,
@@ -138,18 +179,18 @@ list(
     $tooltip_truename,
     $tooltip_aliasname,
     $pos
-) = PMA\libraries\Util::getDbInfo($db, isset($sub_part) ? $sub_part : '');
+) = PhpMyAdmin\Util::getDbInfo($db, isset($sub_part) ? $sub_part : '');
 
 // Embed some data into HTML, later it will be read
-// by pmd/init.js and converted to JS variables.
+// by designer/init.js and converted to JS variables.
 $response->addHTML(
-    PMA_getHtmlForJSFields(
+    $databaseDesigner->getHtmlForJsFields(
         $script_tables, $script_contr, $script_display_field, $display_page
     )
 );
 $response->addHTML(
-    PMA_getDesignerPageMenu(
-        isset($_REQUEST['query']),
+    $databaseDesigner->getPageMenu(
+        isset($_GET['query']),
         $selected_page,
         $classes_side_menu
     )
@@ -159,14 +200,16 @@ $response->addHTML(
 
 $response->addHTML('<div id="canvas_outer">');
 $response->addHTML(
-    '<form action="" id="container-form" method="post" name="form1">'
+    '<form action="" id="container-form" method="post">'
 );
 
-$response->addHTML(PMA_getHTMLCanvas());
-$response->addHTML(PMA_getHTMLTableList($tab_pos, $display_page));
+$response->addHTML($databaseDesigner->getHtmlCanvas());
+$response->addHTML($databaseDesigner->getHtmlTableList());
 
 $response->addHTML(
-    PMA_getDatabaseTables(
+    $databaseDesigner->getDatabaseTables(
+        $_GET['db'],
+        $script_display_field,
         $tab_pos, $display_page, $tab_column,
         $tables_all_keys, $tables_pk_or_unique_keys
     )
@@ -174,18 +217,18 @@ $response->addHTML(
 $response->addHTML('</form>');
 $response->addHTML('</div>'); // end canvas_outer
 
-$response->addHTML('<div id="pmd_hint"></div>');
+$response->addHTML('<div id="designer_hint"></div>');
 
-$response->addHTML(PMA_getNewRelationPanel());
-$response->addHTML(PMA_getDeleteRelationPanel());
+$response->addHTML($databaseDesigner->getNewRelationPanel());
+$response->addHTML($databaseDesigner->getDeleteRelationPanel());
 
-if (isset($_REQUEST['query'])) {
-    $response->addHTML(PMA_getOptionsPanel());
-    $response->addHTML(PMA_getRenameToPanel());
-    $response->addHTML(PMA_getHavingQueryPanel());
-    $response->addHTML(PMA_getAggregateQueryPanel());
-    $response->addHTML(PMA_getWhereQueryPanel());
-    $response->addHTML(PMA_getQueryDetails());
+if (isset($_GET['query'])) {
+    $response->addHTML($databaseDesigner->getOptionsPanel());
+    $response->addHTML($databaseDesigner->getRenameToPanel());
+    $response->addHTML($databaseDesigner->getHavingQueryPanel());
+    $response->addHTML($databaseDesigner->getAggregateQueryPanel());
+    $response->addHTML($databaseDesigner->getWhereQueryPanel());
+    $response->addHTML($databaseDesigner->getQueryDetails($_GET['db']));
 }
 
 $response->addHTML('<div id="PMA_disable_floating_menubar"></div>');

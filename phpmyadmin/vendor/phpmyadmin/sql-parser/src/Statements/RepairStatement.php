@@ -32,6 +32,6 @@ class RepairStatement extends MaintenanceStatement
 
         'QUICK' => 4,
         'EXTENDED' => 5,
-        'USE_FRM' => 6,
+        'USE_FRM' => 6
     );
 }

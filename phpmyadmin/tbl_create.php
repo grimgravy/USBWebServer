@@ -5,21 +5,25 @@
  *
  * @package PhpMyAdmin
  */
-use PMA\libraries\URL;
-use PMA\libraries\Response;
+
+use PhpMyAdmin\Core;
+use PhpMyAdmin\CreateAddField;
+use PhpMyAdmin\Response;
+use PhpMyAdmin\Transformations;
+use PhpMyAdmin\Url;
+use PhpMyAdmin\Util;
 
 /**
  * Get some core libraries
  */
 require_once 'libraries/common.inc.php';
-require_once 'libraries/create_addfield.lib.php';
 
 // Check parameters
-PMA\libraries\Util::checkParameters(array('db'));
+Util::checkParameters(array('db'));
 
 /* Check if database name is empty */
 if (strlen($db) === 0) {
-    PMA\libraries\Util::mysqlDie(
+    Util::mysqlDie(
         __('The database name is empty!'), '', false, 'index.php'
     );
 }
@@ -28,7 +32,7 @@ if (strlen($db) === 0) {
  * Selects the database to work with
  */
 if (!$GLOBALS['dbi']->selectDb($db)) {
-    PMA\libraries\Util::mysqlDie(
+    Util::mysqlDie(
         sprintf(__('\'%s\' database does not exist.'), htmlspecialchars($db)),
         '',
         false,
@@ -38,52 +42,61 @@ if (!$GLOBALS['dbi']->selectDb($db)) {
 
 if ($GLOBALS['dbi']->getColumns($db, $table)) {
     // table exists already
-    PMA\libraries\Util::mysqlDie(
+    Util::mysqlDie(
         sprintf(__('Table %s already exists!'), htmlspecialchars($table)),
         '',
         false,
-        'db_structure.php' . URL::getCommon(array('db' => $db))
+        'db_structure.php' . Url::getCommon(array('db' => $db))
     );
 }
 
+$createAddField = new CreateAddField($GLOBALS['dbi']);
+
 // for libraries/tbl_columns_definition_form.inc.php
 // check number of fields to be created
-$num_fields = PMA_getNumberOfFieldsFromRequest();
+$num_fields = $createAddField->getNumberOfFieldsFromRequest();
 
 $action = 'tbl_create.php';
 
 /**
  * The form used to define the structure of the table has been submitted
  */
-if (isset($_REQUEST['do_save_data'])) {
-    $sql_query = PMA_getTableCreationQuery($db, $table);
+if (isset($_POST['do_save_data'])) {
+    // lower_case_table_names=1 `DB` becomes `db`
+    if ($GLOBALS['dbi']->getLowerCaseNames() === '1') {
+        $db = mb_strtolower(
+            $db
+        );
+        $table = mb_strtolower(
+            $table
+        );
+    }
+    $sql_query = $createAddField->getTableCreationQuery($db, $table);
 
     // If there is a request for SQL previewing.
-    if (isset($_REQUEST['preview_sql'])) {
-        PMA_previewSQL($sql_query);
+    if (isset($_POST['preview_sql'])) {
+        Core::previewSQL($sql_query);
     }
     // Executes the query
     $result = $GLOBALS['dbi']->tryQuery($sql_query);
 
     if ($result) {
-        // If comments were sent, enable relation stuff
-        include_once 'libraries/transformations.lib.php';
         // Update comment table for mime types [MIME]
-        if (isset($_REQUEST['field_mimetype'])
-            && is_array($_REQUEST['field_mimetype'])
+        if (isset($_POST['field_mimetype'])
+            && is_array($_POST['field_mimetype'])
             && $cfg['BrowseMIME']
         ) {
-            foreach ($_REQUEST['field_mimetype'] as $fieldindex => $mimetype) {
-                if (isset($_REQUEST['field_name'][$fieldindex])
-                    && strlen($_REQUEST['field_name'][$fieldindex]) > 0
+            foreach ($_POST['field_mimetype'] as $fieldindex => $mimetype) {
+                if (isset($_POST['field_name'][$fieldindex])
+                    && strlen($_POST['field_name'][$fieldindex]) > 0
                 ) {
-                    PMA_setMIME(
+                    Transformations::setMIME(
                         $db, $table,
-                        $_REQUEST['field_name'][$fieldindex], $mimetype,
-                        $_REQUEST['field_transformation'][$fieldindex],
-                        $_REQUEST['field_transformation_options'][$fieldindex],
-                        $_REQUEST['field_input_transformation'][$fieldindex],
-                        $_REQUEST['field_input_transformation_options'][$fieldindex]
+                        $_POST['field_name'][$fieldindex], $mimetype,
+                        $_POST['field_transformation'][$fieldindex],
+                        $_POST['field_transformation_options'][$fieldindex],
+                        $_POST['field_input_transformation'][$fieldindex],
+                        $_POST['field_input_transformation_options'][$fieldindex]
                     );
                 }
             }

@@ -102,7 +102,7 @@ class OrderKeyword extends Component
                 } elseif (($token->type === Token::TYPE_OPERATOR)
                     && ($token->value === ',')
                 ) {
-                    if (!empty($expr->expr)) {
+                    if (! empty($expr->expr)) {
                         $ret[] = $expr;
                     }
                     $expr = new self();
@@ -114,7 +114,7 @@ class OrderKeyword extends Component
         }
 
         // Last iteration was not processed.
-        if (!empty($expr->expr)) {
+        if (! empty($expr->expr)) {
             $ret[] = $expr;
         }
 

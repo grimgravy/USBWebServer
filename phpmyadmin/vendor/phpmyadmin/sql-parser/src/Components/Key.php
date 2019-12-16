@@ -29,10 +29,22 @@ class Key extends Component
      * @var array
      */
     public static $KEY_OPTIONS = array(
-        'KEY_BLOCK_SIZE' => array(1, 'var'),
-        'USING' => array(2, 'var'),
-        'WITH PARSER' => array(3, 'var'),
-        'COMMENT' => array(4, 'var='),
+        'KEY_BLOCK_SIZE' => array(
+            1,
+            'var',
+        ),
+        'USING' => array(
+            2,
+            'var',
+        ),
+        'WITH PARSER' => array(
+            3,
+            'var',
+        ),
+        'COMMENT' => array(
+            4,
+            'var=',
+        )
     );
 
     /**
@@ -150,7 +162,7 @@ class Key extends Component
                         $state = 3;
                     } elseif (($token->value === ',') || ($token->value === ')')) {
                         $state = ($token->value === ',') ? 2 : 4;
-                        if (!empty($lastColumn)) {
+                        if (! empty($lastColumn)) {
                             $ret->columns[] = $lastColumn;
                             $lastColumn = array();
                         }
@@ -185,7 +197,7 @@ class Key extends Component
     public static function build($component, array $options = array())
     {
         $ret = $component->type . ' ';
-        if (!empty($component->name)) {
+        if (! empty($component->name)) {
             $ret .= Context::escape($component->name) . ' ';
         }
 

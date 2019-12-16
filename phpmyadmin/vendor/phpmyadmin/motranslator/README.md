@@ -95,6 +95,15 @@ _bind_textdomain_codeset('phpmyadmin', 'UTF-8');
 // Use functions
 echo _gettext('Type');
 echo __('Type');
+
+// It also support other Gettext functions
+_dnpgettext($domain, $msgctxt, $msgid, $msgidPlural, $number);
+_dngettext($domain, $msgid, $msgidPlural, $number);
+_npgettext($msgctxt, $msgid, $msgidPlural, $number);
+_ngettext($msgid, $msgidPlural, $number);
+_dpgettext($domain, $msgctxt, $msgid);
+_dgettext($domain, $msgid);
+_pgettext($msgctxt, $msgid);
 ```
 
 ## History

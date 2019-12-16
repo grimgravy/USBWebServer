@@ -4,11 +4,13 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitaa3ba4d49216f59584674c5e7ac9ac97
+class ComposerStaticInit9ed066165537ae6458575d39b0d104e6
 {
     public static $files = array (
-        '32dcc8afd4335739640db7d200c1971d' => __DIR__ . '/..' . '/symfony/polyfill-apcu/bootstrap.php',
+        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
     );
 
@@ -17,12 +19,19 @@ class ComposerStaticInitaa3ba4d49216f59584674c5e7ac9ac97
         array (
             'phpseclib\\' => 10,
         ),
+        'T' => 
+        array (
+            'Twig\\Extensions\\' => 16,
+            'Twig\\' => 5,
+        ),
         'S' => 
         array (
+            'Symfony\\Polyfill\\Util\\' => 22,
+            'Symfony\\Polyfill\\Php56\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
-            'Symfony\\Polyfill\\Apcu\\' => 22,
+            'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\ExpressionLanguage\\' => 37,
-            'Symfony\\Component\\Cache\\' => 24,
+            'Samyoul\\U2F\\U2FServer\\' => 22,
         ),
         'R' => 
         array (
@@ -30,13 +39,15 @@ class ComposerStaticInitaa3ba4d49216f59584674c5e7ac9ac97
         ),
         'P' => 
         array (
-            'Psr\\SimpleCache\\' => 16,
-            'Psr\\Log\\' => 8,
-            'Psr\\Cache\\' => 10,
+            'Psr\\Container\\' => 14,
+            'PragmaRX\\Google2FA\\Tests\\' => 25,
+            'PragmaRX\\Google2FA\\' => 19,
             'PhpMyAdmin\\SqlParser\\' => 21,
             'PhpMyAdmin\\ShapeFile\\' => 21,
+            'PhpMyAdmin\\Setup\\' => 17,
             'PhpMyAdmin\\MoTranslator\\' => 24,
-            'PMA\\' => 4,
+            'PhpMyAdmin\\' => 11,
+            'ParagonIE\\ConstantTime\\' => 23,
         ),
     );
 
@@ -45,37 +56,53 @@ class ComposerStaticInitaa3ba4d49216f59584674c5e7ac9ac97
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
         ),
+        'Twig\\Extensions\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/twig/extensions/src',
+        ),
+        'Twig\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/twig/twig/src',
+        ),
+        'Symfony\\Polyfill\\Util\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-util',
+        ),
+        'Symfony\\Polyfill\\Php56\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php56',
+        ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'Symfony\\Polyfill\\Apcu\\' => 
+        'Symfony\\Polyfill\\Ctype\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-apcu',
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
         'Symfony\\Component\\ExpressionLanguage\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/expression-language',
         ),
-        'Symfony\\Component\\Cache\\' => 
+        'Samyoul\\U2F\\U2FServer\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/cache',
+            0 => __DIR__ . '/..' . '/samyoul/u2f-php-server/src',
         ),
         'ReCaptcha\\' => 
         array (
             0 => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha',
         ),
-        'Psr\\SimpleCache\\' => 
+        'Psr\\Container\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+            0 => __DIR__ . '/..' . '/psr/container/src',
         ),
-        'Psr\\Log\\' => 
+        'PragmaRX\\Google2FA\\Tests\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+            0 => __DIR__ . '/..' . '/pragmarx/google2fa/tests',
         ),
-        'Psr\\Cache\\' => 
+        'PragmaRX\\Google2FA\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/cache/src',
+            0 => __DIR__ . '/..' . '/pragmarx/google2fa/src',
         ),
         'PhpMyAdmin\\SqlParser\\' => 
         array (
@@ -85,13 +112,42 @@ class ComposerStaticInitaa3ba4d49216f59584674c5e7ac9ac97
         array (
             0 => __DIR__ . '/..' . '/phpmyadmin/shapefile/src',
         ),
+        'PhpMyAdmin\\Setup\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/setup/lib',
+        ),
         'PhpMyAdmin\\MoTranslator\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmyadmin/motranslator/src',
         ),
-        'PMA\\' => 
+        'PhpMyAdmin\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/',
+            0 => __DIR__ . '/../..' . '/libraries/classes',
+        ),
+        'ParagonIE\\ConstantTime\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'T' => 
+        array (
+            'Twig_Extensions_' => 
+            array (
+                0 => __DIR__ . '/..' . '/twig/extensions/lib',
+            ),
+            'Twig_' => 
+            array (
+                0 => __DIR__ . '/..' . '/twig/twig/lib',
+            ),
+        ),
+        'B' => 
+        array (
+            'BaconQrCode' => 
+            array (
+                0 => __DIR__ . '/..' . '/bacon/bacon-qr-code/src',
+            ),
         ),
     );
 
@@ -115,9 +171,10 @@ class ComposerStaticInitaa3ba4d49216f59584674c5e7ac9ac97
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitaa3ba4d49216f59584674c5e7ac9ac97::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitaa3ba4d49216f59584674c5e7ac9ac97::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitaa3ba4d49216f59584674c5e7ac9ac97::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit9ed066165537ae6458575d39b0d104e6::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit9ed066165537ae6458575d39b0d104e6::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit9ed066165537ae6458575d39b0d104e6::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit9ed066165537ae6458575d39b0d104e6::$classMap;
 
         }, null, ClassLoader::class);
     }

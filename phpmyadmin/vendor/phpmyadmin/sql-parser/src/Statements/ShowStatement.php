@@ -61,6 +61,6 @@ class ShowStatement extends NotImplementedStatement
         'TRIGGERS' => 2,
         'VARIABLES' => 2,
         'VIEW' => 2,
-        'WARNINGS' => 2,
+        'WARNINGS' => 2
     );
 }

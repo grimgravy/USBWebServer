@@ -27,9 +27,18 @@ class Reference extends Component
      * @var array
      */
     public static $REFERENCES_OPTIONS = array(
-        'MATCH' => array(1, 'var'),
-        'ON DELETE' => array(2, 'var'),
-        'ON UPDATE' => array(3, 'var'),
+        'MATCH' => array(
+            1,
+            'var',
+        ),
+        'ON DELETE' => array(
+            2,
+            'var',
+        ),
+        'ON UPDATE' => array(
+            3,
+            'var',
+        )
     );
 
     /**
@@ -117,7 +126,7 @@ class Reference extends Component
                     $list,
                     array(
                         'parseField' => 'table',
-                        'breakOnAlias' => true,
+                        'breakOnAlias' => true
                     )
                 );
                 $state = 1;

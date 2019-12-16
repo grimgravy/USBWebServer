@@ -360,6 +360,6 @@ class ContextMariaDb100200 extends Context
 
         'CHAR' => 43,
         'BINARY' => 43,
-        'INTERVAL' => 43,
+        'INTERVAL' => 43
     );
 }

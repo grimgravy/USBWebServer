@@ -5,16 +5,15 @@
  *
  * @package PhpMyAdmin
  */
-use PMA\libraries\config\PageSettings;
-use PMA\libraries\Response;
+use PhpMyAdmin\Config\PageSettings;
+use PhpMyAdmin\Display\Export;
+use PhpMyAdmin\Relation;
+use PhpMyAdmin\Response;
 
 /**
  *
  */
 require_once 'libraries/common.inc.php';
-require_once 'libraries/display_export.lib.php';
-require_once 'libraries/config/user_preferences.forms.php';
-require_once 'libraries/config/page_settings.forms.php';
 
 PageSettings::showGroup('Export');
 
@@ -24,11 +23,14 @@ $scripts  = $header->getScripts();
 $scripts->addFile('export.js');
 
 // Get the relation settings
-$cfgRelation = PMA_getRelationsParam();
+$relation = new Relation();
+$cfgRelation = $relation->getRelationsParam();
+
+$displayExport = new Export();
 
 // handling export template actions
-if (isset($_REQUEST['templateAction']) && $cfgRelation['exporttemplateswork']) {
-    PMA_handleExportTemplateActions($cfgRelation);
+if (isset($_POST['templateAction']) && $cfgRelation['exporttemplateswork']) {
+    $displayExport->handleTemplateActions($cfgRelation);
     exit;
 }
 
@@ -37,7 +39,6 @@ if (isset($_REQUEST['templateAction']) && $cfgRelation['exporttemplateswork']) {
  */
 require_once 'libraries/tbl_common.inc.php';
 $url_query .= '&amp;goto=tbl_export.php&amp;back=tbl_export.php';
-require_once 'libraries/tbl_info.inc.php';
 
 // Dump of a table
 
@@ -52,33 +53,6 @@ if (! empty($sql_query)) {
     if ((!empty($parser->statements[0]))
         && ($parser->statements[0] instanceof PhpMyAdmin\SqlParser\Statements\SelectStatement)
     ) {
-
-        // Finding aliases and removing them, but we keep track of them to be
-        // able to replace them in select expression too.
-        $aliases = array();
-        foreach ($parser->statements[0]->from as $from) {
-            if ((!empty($from->table)) && (!empty($from->alias))) {
-                $aliases[$from->alias] = $from->table;
-                // We remove the alias of the table because they are going to
-                // be replaced anyway.
-                $from->alias = null;
-                $from->expr = null; // Force rebuild.
-            }
-        }
-
-        // Rebuilding the SELECT and FROM clauses.
-        if (count($parser->statements[0]->from) > 0
-            && count($parser->statements[0]->union) === 0
-        ) {
-            $replaces = array(
-                array(
-                    'FROM', 'FROM ' . PhpMyAdmin\SqlParser\Components\ExpressionArray::build(
-                        $parser->statements[0]->from
-                    ),
-                ),
-            );
-        }
-
         // Checking if the WHERE clause has to be replaced.
         if ((!empty($where_clause)) && (is_array($where_clause))) {
             $replaces[] = array(
@@ -95,34 +69,10 @@ if (! empty($sql_query)) {
             $parser->list,
             $replaces
         );
-
-        // Removing the aliases by finding the alias followed by a dot.
-        $tokens = PhpMyAdmin\SqlParser\Lexer::getTokens($sql_query);
-        foreach ($aliases as $alias => $table) {
-            $tokens = PhpMyAdmin\SqlParser\Utils\Tokens::replaceTokens(
-                $tokens,
-                array(
-                    array(
-                        'value_str' => $alias,
-                    ),
-                    array(
-                        'type' => PhpMyAdmin\SqlParser\Token::TYPE_OPERATOR,
-                        'value_str' => '.',
-                    )
-                ),
-                array(
-                    new PhpMyAdmin\SqlParser\Token($table),
-                    new PhpMyAdmin\SqlParser\Token('.',PhpMyAdmin\SqlParser\Token::TYPE_OPERATOR)
-                )
-            );
-        }
-        $sql_query = PhpMyAdmin\SqlParser\TokensList::build($tokens);
     }
 
-    echo PMA\libraries\Util::getMessage(PMA\libraries\Message::success());
+    echo PhpMyAdmin\Util::getMessage(PhpMyAdmin\Message::success());
 }
-
-require_once 'libraries/display_export.lib.php';
 
 if (! isset($sql_query)) {
     $sql_query = '';
@@ -138,7 +88,7 @@ if (! isset($multi_values)) {
 }
 $response = Response::getInstance();
 $response->addHTML(
-    PMA_getExportDisplay(
+    $displayExport->getDisplay(
         'table', $db, $table, $sql_query, $num_tables,
         $unlim_num_rows, $multi_values
     )

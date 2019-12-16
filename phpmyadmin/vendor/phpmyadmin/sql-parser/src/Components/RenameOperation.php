@@ -68,7 +68,7 @@ class RenameOperation extends Component
          *
          *      1 ------------------------[ TO ]-----------------------> 2
          *
-         *      2 ---------------------[ old name ]--------------------> 3
+         *      2 ---------------------[ new name ]--------------------> 3
          *
          *      3 ------------------------[ , ]------------------------> 0
          *      3 -----------------------[ else ]----------------------> (END)
@@ -101,7 +101,7 @@ class RenameOperation extends Component
                     $list,
                     array(
                         'breakOnAlias' => true,
-                        'parseField' => 'table',
+                        'parseField' => 'table'
                     )
                 );
                 if (empty($expr->old)) {
@@ -127,7 +127,7 @@ class RenameOperation extends Component
                     $list,
                     array(
                         'breakOnAlias' => true,
-                        'parseField' => 'table',
+                        'parseField' => 'table'
                     )
                 );
                 if (empty($expr->new)) {
@@ -156,7 +156,7 @@ class RenameOperation extends Component
         }
 
         // Last iteration was not saved.
-        if (!empty($expr->old)) {
+        if (! empty($expr->old)) {
             $ret[] = $expr;
         }
 

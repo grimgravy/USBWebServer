@@ -281,6 +281,6 @@ class ContextMySql50000 extends Context
 
         'CHAR' => 43,
         'BINARY' => 43,
-        'INTERVAL' => 43,
+        'INTERVAL' => 43
     );
 }

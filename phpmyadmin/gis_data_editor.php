@@ -5,10 +5,12 @@
  *
  * @package PhpMyAdmin
  */
-use PMA\libraries\Response;
-use PMA\libraries\gis\GISFactory;
-use PMA\libraries\gis\GISVisualization;
-use PMA\libraries\URL;
+
+use PhpMyAdmin\Core;
+use PhpMyAdmin\Gis\GisFactory;
+use PhpMyAdmin\Gis\GisVisualization;
+use PhpMyAdmin\Response;
+use PhpMyAdmin\Url;
 
 /**
  * Escapes special characters if the variable is set.
@@ -25,14 +27,14 @@ function escape($variable)
 
 require_once 'libraries/common.inc.php';
 
-if (! isset($_REQUEST['field'])) {
-    PMA\libraries\Util::checkParameters(array('field'));
+if (! isset($_POST['field'])) {
+    PhpMyAdmin\Util::checkParameters(array('field'));
 }
 
 // Get data if any posted
 $gis_data = array();
-if (PMA_isValid($_REQUEST['gis_data'], 'array')) {
-    $gis_data = $_REQUEST['gis_data'];
+if (Core::isValid($_POST['gis_data'], 'array')) {
+    $gis_data = $_POST['gis_data'];
 }
 
 $gis_types = array(
@@ -48,15 +50,15 @@ $gis_types = array(
 // Extract type from the initial call and make sure that it's a valid one.
 // Extract from field's values if available, if not use the column type passed.
 if (! isset($gis_data['gis_type'])) {
-    if (isset($_REQUEST['type']) && $_REQUEST['type'] != '') {
-        $gis_data['gis_type'] = mb_strtoupper($_REQUEST['type']);
+    if (isset($_POST['type']) && $_POST['type'] != '') {
+        $gis_data['gis_type'] = mb_strtoupper($_POST['type']);
     }
-    if (isset($_REQUEST['value']) && trim($_REQUEST['value']) != '') {
-        $start = (substr($_REQUEST['value'], 0, 1) == "'") ? 1 : 0;
+    if (isset($_POST['value']) && trim($_POST['value']) != '') {
+        $start = (substr($_POST['value'], 0, 1) == "'") ? 1 : 0;
         $gis_data['gis_type'] = mb_substr(
-            $_REQUEST['value'],
+            $_POST['value'],
             $start,
-            mb_strpos($_REQUEST['value'], "(") - $start
+            mb_strpos($_POST['value'], "(") - $start
         );
     }
     if ((! isset($gis_data['gis_type']))
@@ -68,10 +70,10 @@ if (! isset($gis_data['gis_type'])) {
 $geom_type = htmlspecialchars($gis_data['gis_type']);
 
 // Generate parameters from value passed.
-$gis_obj = GISFactory::factory($geom_type);
-if (isset($_REQUEST['value'])) {
+$gis_obj = GisFactory::factory($geom_type);
+if (isset($_POST['value'])) {
     $gis_data = array_merge(
-        $gis_data, $gis_obj->generateParams($_REQUEST['value'])
+        $gis_data, $gis_obj->generateParams($_POST['value'])
     );
 }
 
@@ -86,17 +88,18 @@ $result = "'" . $wkt . "'," . $srid;
 $visualizationSettings = array(
     'width' => 450,
     'height' => 300,
-    'spatialColumn' => 'wkt'
+    'spatialColumn' => 'wkt',
+    'mysqlVersion' => $GLOBALS['dbi']->getVersion()
 );
 $data = array(array('wkt' => $wkt_with_zero, 'srid' => $srid));
-$visualization = GISVisualization::getByData($data, $visualizationSettings)
+$visualization = GisVisualization::getByData($data, $visualizationSettings)
     ->toImage('svg');
 
-$open_layers = GISVisualization::getByData($data, $visualizationSettings)
+$open_layers = GisVisualization::getByData($data, $visualizationSettings)
     ->asOl();
 
 // If the call is to update the WKT and visualization make an AJAX response
-if (isset($_REQUEST['generate']) && $_REQUEST['generate'] == true) {
+if (isset($_POST['generate']) && $_POST['generate'] == true) {
     $extra_data = array(
         'result'        => $result,
         'visualization' => $visualization,
@@ -117,31 +120,32 @@ echo '<div id="gis_data_editor">';
 echo '<h3>';
 printf(
     __('Value for the column "%s"'),
-    htmlspecialchars($_REQUEST['field'])
+    htmlspecialchars($_POST['field'])
 );
 echo '</h3>';
 
 echo '<input type="hidden" name="field" value="'
-    , htmlspecialchars($_REQUEST['field']) , '" />';
+    , htmlspecialchars($_POST['field']) , '" />';
 // The input field to which the final result should be added
 // and corresponding null checkbox
-if (isset($_REQUEST['input_name'])) {
+if (isset($_POST['input_name'])) {
     echo '<input type="hidden" name="input_name" value="'
-        , htmlspecialchars($_REQUEST['input_name']) , '" />';
+        , htmlspecialchars($_POST['input_name']) , '" />';
 }
-echo URL::getHiddenInputs();
+echo Url::getHiddenInputs();
 
 echo '<!-- Visualization section -->';
-echo '<div id="placeholder" style="width:450px;height:300px;'
-    , ($srid != 0 ? 'display:none;' : '') , '">';
+echo '<div id="placeholder"'
+    , ($srid != 0 ? 'class="hide"' : '') , '>';
 echo $visualization;
 echo '</div>';
 
-echo '<div id="openlayersmap" style="width:450px;height:300px;'
-    , ($srid == 0 ? 'display:none;' : '') , '">';
+// No not remove inline style or it will cause "Cannot read property 'w' of null" on GIS editor map init
+echo '<div id="openlayersmap" style="width: ' . $visualizationSettings['width'] . 'px; height: ' . $visualizationSettings['height'] . 'px;" '
+    , ($srid == 0 ? 'class="hide"' : '') , '>';
 echo '</div>';
 
-echo '<div class="choice" style="float:right;clear:right;">';
+echo '<div class="choice floatright">';
 echo '<input type="checkbox" id="choice" value="useBaseLayer"'
     , ($srid != 0 ? ' checked="checked"' : '') , '/>';
 echo '<label for="choice">' ,  __("Use OpenStreetMaps as Base Layer") , '</label>';
@@ -416,7 +420,7 @@ echo '<div id="gis_data_output">';
 echo '<h3>' , __('Output') , '</h3>';
 echo '<p>';
 echo __(
-    'Choose "GeomFromText" from the "Function" column and paste the'
+    'Choose "ST_GeomFromText" from the "Function" column and paste the'
     . ' string below into the "Value" field.'
 );
 echo '</p>';

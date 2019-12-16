@@ -156,7 +156,7 @@ class OptionsArray extends Component
             }
 
             if ($state === 0) {
-                if (!is_array($lastOption)) {
+                if (! is_array($lastOption)) {
                     // This is a just keyword option without any value.
                     // This is the beginning and the end of it.
                     $ret->options[$lastOptionId] = $token->value;
@@ -176,7 +176,7 @@ class OptionsArray extends Component
                         // @var string Raw value.
                         'expr' => '',
                         // @var string Processed value.
-                        'value' => '',
+                        'value' => ''
                     );
                     $state = 1;
                 } elseif ($lastOption[1] === 'expr' || $lastOption[1] === 'expr=') {
@@ -192,7 +192,7 @@ class OptionsArray extends Component
                         //           This is used by the builder to rebuild it.
                         'equals' => $lastOption[1] === 'expr=',
                         // @var Expression The parsed expression.
-                        'expr' => '',
+                        'expr' => ''
                     );
                     $state = 1;
                 }
@@ -226,7 +226,7 @@ class OptionsArray extends Component
 
                     $ret->options[$lastOptionId]['expr'] .= $token->token;
 
-                    if (!((($token->token === '(') && ($brackets === 1))
+                    if (! ((($token->token === '(') && ($brackets === 1))
                         || (($token->token === ')') && ($brackets === 0)))
                     ) {
                         // First pair of brackets is being skipped.
@@ -247,10 +247,10 @@ class OptionsArray extends Component
          */
         if ($state === 1
             && $lastOption
-            && ($lastOption[1] == 'expr'
-            || $lastOption[1] == 'var'
-            || $lastOption[1] == 'var='
-            || $lastOption[1] == 'expr=')
+            && ($lastOption[1] === 'expr'
+            || $lastOption[1] === 'var'
+            || $lastOption[1] === 'var='
+            || $lastOption[1] === 'expr=')
         ) {
             $parser->error(
                 sprintf(
@@ -284,12 +284,12 @@ class OptionsArray extends Component
 
         $options = array();
         foreach ($component->options as $option) {
-            if (!is_array($option)) {
+            if (! is_array($option)) {
                 $options[] = $option;
             } else {
                 $options[] = $option['name']
-                    . ((!empty($option['equals']) && $option['equals']) ? '=' : ' ')
-                    . (!empty($option['expr']) ? $option['expr'] : $option['value']);
+                    . ((! empty($option['equals']) && $option['equals']) ? '=' : ' ')
+                    . (! empty($option['expr']) ? $option['expr'] : $option['value']);
             }
         }
 
@@ -309,10 +309,10 @@ class OptionsArray extends Component
     {
         foreach ($this->options as $option) {
             if (is_array($option)) {
-                if (!strcasecmp($key, $option['name'])) {
+                if (! strcasecmp($key, $option['name'])) {
                     return $getExpr ? $option['expr'] : $option['value'];
                 }
-            } elseif (!strcasecmp($key, $option)) {
+            } elseif (! strcasecmp($key, $option)) {
                 return true;
             }
         }
@@ -331,12 +331,12 @@ class OptionsArray extends Component
     {
         foreach ($this->options as $idx => $option) {
             if (is_array($option)) {
-                if (!strcasecmp($key, $option['name'])) {
+                if (! strcasecmp($key, $option['name'])) {
                     unset($this->options[$idx]);
 
                     return true;
                 }
-            } elseif (!strcasecmp($key, $option)) {
+            } elseif (! strcasecmp($key, $option)) {
                 unset($this->options[$idx]);
 
                 return true;

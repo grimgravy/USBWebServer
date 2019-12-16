@@ -54,7 +54,7 @@ class AlterStatement extends Statement
         'SERVER' => 3,
         'TABLE' => 3,
         'TABLESPACE' => 3,
-        'VIEW' => 3,
+        'VIEW' => 3
     );
 
     /**
@@ -77,7 +77,7 @@ class AlterStatement extends Statement
             $list,
             array(
                 'parseField' => 'table',
-                'breakOnAlias' => true,
+                'breakOnAlias' => true
             )
         );
         ++$list->idx; // Skipping field.

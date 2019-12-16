@@ -30,34 +30,34 @@ class Tokens
     public static function match(Token $token, array $pattern)
     {
         // Token.
-        if ((isset($pattern['token']))
+        if (isset($pattern['token'])
             && ($pattern['token'] !== $token->token)
         ) {
             return false;
         }
 
         // Value.
-        if ((isset($pattern['value']))
+        if (isset($pattern['value'])
             && ($pattern['value'] !== $token->value)
         ) {
             return false;
         }
 
-        if ((isset($pattern['value_str']))
-            && (strcasecmp($pattern['value_str'], $token->value))
+        if (isset($pattern['value_str'])
+            && strcasecmp($pattern['value_str'], $token->value)
         ) {
             return false;
         }
 
         // Type.
-        if ((isset($pattern['type']))
+        if (isset($pattern['type'])
             && ($pattern['type'] !== $token->type)
         ) {
             return false;
         }
 
         // Flags.
-        if ((isset($pattern['flags']))
+        if (isset($pattern['flags'])
             && (($pattern['flags'] & $token->flags) === 0)
         ) {
             return false;
@@ -76,7 +76,7 @@ class Tokens
         $isList = $list instanceof TokensList;
 
         // Parsing the tokens.
-        if (!$isList) {
+        if (! $isList) {
             $list = Lexer::getTokens($list);
         }
 
@@ -136,7 +136,7 @@ class Tokens
                     ++$j;
                 }
 
-                if (!static::match($list->tokens[$j], $find[$k])) {
+                if (! static::match($list->tokens[$j], $find[$k])) {
                     // This token does not match the pattern.
                     break;
                 }

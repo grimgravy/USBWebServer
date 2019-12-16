@@ -7,9 +7,11 @@
  */
 
 // Include common functionalities
-use PMA\libraries\Response;
-use PMA\libraries\config\PageSettings;
-use PMA\libraries\navigation\Navigation;
+use PhpMyAdmin\Config\PageSettings;
+use PhpMyAdmin\Navigation\Navigation;
+use PhpMyAdmin\Relation;
+use PhpMyAdmin\Response;
+use PhpMyAdmin\Util;
 
 require_once './libraries/common.inc.php';
 
@@ -18,55 +20,60 @@ $response = Response::getInstance();
 $navigation = new Navigation();
 if (! $response->isAjax()) {
     $response->addHTML(
-        PMA\libraries\Message::error(
+        PhpMyAdmin\Message::error(
             __('Fatal error: The navigation can only be accessed via AJAX')
         )
     );
     exit;
 }
 
-if (isset($_REQUEST['getNaviSettings']) && $_REQUEST['getNaviSettings']) {
+if (isset($_POST['getNaviSettings']) && $_POST['getNaviSettings']) {
     $response->addJSON('message', PageSettings::getNaviSettings());
     exit();
 }
 
-$cfgRelation = PMA_getRelationsParam();
+if (isset($_POST['reload'])) {
+    Util::cacheSet('dbs_to_test', false);// Empty database list cache, see #14252
+}
+
+$relation = new Relation();
+$cfgRelation = $relation->getRelationsParam();
 if ($cfgRelation['navwork']) {
-    if (isset($_REQUEST['hideNavItem'])) {
-        if (! empty($_REQUEST['itemName'])
-            && ! empty($_REQUEST['itemType'])
-            && ! empty($_REQUEST['dbName'])
+    if (isset($_POST['hideNavItem'])) {
+        if (! empty($_POST['itemName'])
+            && ! empty($_POST['itemType'])
+            && ! empty($_POST['dbName'])
         ) {
             $navigation->hideNavigationItem(
-                $_REQUEST['itemName'],
-                $_REQUEST['itemType'],
-                $_REQUEST['dbName'],
-                (! empty($_REQUEST['tableName']) ? $_REQUEST['tableName'] : null)
+                $_POST['itemName'],
+                $_POST['itemType'],
+                $_POST['dbName'],
+                (! empty($_POST['tableName']) ? $_POST['tableName'] : null)
             );
         }
         exit;
     }
 
-    if (isset($_REQUEST['unhideNavItem'])) {
-        if (! empty($_REQUEST['itemName'])
-            && ! empty($_REQUEST['itemType'])
-            && ! empty($_REQUEST['dbName'])
+    if (isset($_POST['unhideNavItem'])) {
+        if (! empty($_POST['itemName'])
+            && ! empty($_POST['itemType'])
+            && ! empty($_POST['dbName'])
         ) {
             $navigation->unhideNavigationItem(
-                $_REQUEST['itemName'],
-                $_REQUEST['itemType'],
-                $_REQUEST['dbName'],
-                (! empty($_REQUEST['tableName']) ? $_REQUEST['tableName'] : null)
+                $_POST['itemName'],
+                $_POST['itemType'],
+                $_POST['dbName'],
+                (! empty($_POST['tableName']) ? $_POST['tableName'] : null)
             );
         }
         exit;
     }
 
-    if (isset($_REQUEST['showUnhideDialog'])) {
-        if (! empty($_REQUEST['dbName'])) {
+    if (isset($_POST['showUnhideDialog'])) {
+        if (! empty($_POST['dbName'])) {
             $response->addJSON(
                 'message',
-                $navigation->getItemUnhideDialog($_REQUEST['dbName'])
+                $navigation->getItemUnhideDialog($_POST['dbName'])
             );
         }
         exit;

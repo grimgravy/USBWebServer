@@ -38,7 +38,7 @@ class DropStatement extends Statement
         'TRIGGER' => 1,
 
         'TEMPORARY' => 2,
-        'IF EXISTS' => 3,
+        'IF EXISTS' => 3
     );
 
     /**
@@ -49,12 +49,24 @@ class DropStatement extends Statement
      * @var array
      */
     public static $CLAUSES = array(
-        'DROP' => array('DROP', 2),
+        'DROP' => array(
+            'DROP',
+            2,
+        ),
         // Used for options.
-        '_OPTIONS' => array('_OPTIONS', 1),
+        '_OPTIONS' => array(
+            '_OPTIONS',
+            1,
+        ),
         // Used for select expressions.
-        'DROP_' => array('DROP', 1),
-        'ON' => array('ON', 3),
+        'DROP_' => array(
+            'DROP',
+            1,
+        ),
+        'ON' => array(
+            'ON',
+            3,
+        )
     );
 
     /**

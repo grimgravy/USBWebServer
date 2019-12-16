@@ -26,13 +26,34 @@ class AlterOperation extends Component
      * @var array
      */
     public static $DB_OPTIONS = array(
-        'CHARACTER SET' => array(1, 'var'),
-        'CHARSET' => array(1, 'var'),
-        'DEFAULT CHARACTER SET' => array(1, 'var'),
-        'DEFAULT CHARSET' => array(1, 'var'),
-        'UPGRADE' => array(1, 'var'),
-        'COLLATE' => array(2, 'var'),
-        'DEFAULT COLLATE' => array(2, 'var'),
+        'CHARACTER SET' => array(
+            1,
+            'var'
+        ),
+        'CHARSET' => array(
+            1,
+            'var'
+        ),
+        'DEFAULT CHARACTER SET' => array(
+            1,
+            'var'
+        ),
+        'DEFAULT CHARSET' => array(
+            1,
+            'var'
+        ),
+        'UPGRADE' => array(
+            1,
+            'var'
+        ),
+        'COLLATE' => array(
+            2,
+            'var'
+        ),
+        'DEFAULT COLLATE' => array(
+            2,
+            'var'
+        )
     );
 
     /**
@@ -41,12 +62,30 @@ class AlterOperation extends Component
      * @var array
      */
     public static $TABLE_OPTIONS = array(
-        'ENGINE' => array(1, 'var='),
-        'AUTO_INCREMENT' => array(1, 'var='),
-        'AVG_ROW_LENGTH' => array(1, 'var'),
-        'MAX_ROWS' => array(1, 'var'),
-        'ROW_FORMAT' => array(1, 'var'),
-        'COMMENT' => array(1, 'var'),
+        'ENGINE' => array(
+            1,
+            'var='
+        ),
+        'AUTO_INCREMENT' => array(
+            1,
+            'var='
+        ),
+        'AVG_ROW_LENGTH' => array(
+            1,
+            'var'
+        ),
+        'MAX_ROWS' => array(
+            1,
+            'var'
+        ),
+        'ROW_FORMAT' => array(
+            1,
+            'var'
+        ),
+        'COMMENT' => array(
+            1,
+            'var'
+        ),
         'ADD' => 1,
         'ALTER' => 1,
         'ANALYZE' => 1,
@@ -83,7 +122,7 @@ class AlterOperation extends Component
         'PRIMARY KEY' => 2,
         'SPATIAL' => 2,
         'TABLESPACE' => 2,
-        'INDEX' => 2,
+        'INDEX' => 2
     );
 
     /**
@@ -214,7 +253,7 @@ class AlterOperation extends Component
                     $list,
                     array(
                         'breakOnAlias' => true,
-                        'parseField' => 'column',
+                        'parseField' => 'column'
                     )
                 );
                 if ($ret->field === null) {
@@ -232,17 +271,27 @@ class AlterOperation extends Component
                     } elseif (($token->value === ',') && ($brackets === 0)) {
                         break;
                     }
-                } elseif (!empty(Parser::$STATEMENT_PARSERS[$token->value])) {
+                } elseif (! empty(Parser::$STATEMENT_PARSERS[$token->value])) {
                     // We have reached the end of ALTER operation and suddenly found
                     // a start to new statement, but have not find a delimiter between them
 
-                    if (!($token->value == 'SET' && $list->tokens[$list->idx - 1]->value == 'CHARACTER')) {
+                    if (! ($token->value === 'SET' && $list->tokens[$list->idx - 1]->value === 'CHARACTER')) {
                         $parser->error(
                             'A new statement was found, but no delimiter between it and the previous one.',
                             $token
                         );
                         break;
                     }
+                } elseif ((array_key_exists($token->value, self::$DB_OPTIONS)
+                    || array_key_exists($token->value, self::$TABLE_OPTIONS))
+                    && ! self::checkIfColumnDefinitionKeyword($token->value)
+                ) {
+                    // This alter operation has finished, which means a comma was missing before start of new alter operation
+                    $parser->error(
+                        'Missing comma before start of a new alter operation.',
+                        $token
+                    );
+                    break;
                 }
                 $ret->unknown[] = $token;
             }
@@ -275,5 +324,25 @@ class AlterOperation extends Component
         $ret .= TokensList::build($component->unknown);
 
         return $ret;
+    }
+
+    /**
+     * Check if token's value is one of the common keywords
+     * between column and table alteration
+     *
+     * @param string $tokenValue Value of current token
+     */
+    private static function checkIfColumnDefinitionKeyword($tokenValue)
+    {
+        $common_options = array(
+            'AUTO_INCREMENT',
+            'COMMENT',
+            'DEFAULT',
+            'CHARACTER SET',
+            'COLLATE'
+        );
+        // Since these options can be used for
+        // both table as well as a specific column in the table
+        return in_array($tokenValue, $common_options);
     }
 }
