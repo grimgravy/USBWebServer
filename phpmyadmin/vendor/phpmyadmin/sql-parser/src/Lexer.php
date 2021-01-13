@@ -343,6 +343,39 @@ class Lexer extends Core
 
         // Saving the tokens list.
         $this->list = $list;
+
+        $this->solveAmbiguityOnStarOperator();
+    }
+
+    /**
+     * Resolves the ambiguity when dealing with the "*" operator.
+     *
+     * In SQL statements, the "*" operator can be an arithmetic operator (like in 2*3) or an SQL wildcard (like in
+     * SELECT a.* FROM ...). To solve this ambiguity, the solution is to find the next token, excluding whitespaces and
+     * comments, right after the "*" position. The "*" is for sure an SQL wildcard if the next token found is any of:
+     * - "FROM" (the FROM keyword like in "SELECT * FROM...");
+     * - "USING" (the USING keyword like in "DELETE table_name.* USING...");
+     * - "," (a comma separator like in "SELECT *, field FROM...");
+     * - ")" (a closing parenthesis like in "COUNT(*)").
+     * This methods will change the flag of the "*" tokens when any of those condition above is true. Otherwise, the
+     * default flag (arithmetic) will be kept.
+     *
+     * @return void
+     */
+    private function solveAmbiguityOnStarOperator()
+    {
+        $iBak = $this->list->idx;
+        while (null !== ($starToken = $this->list->getNextOfTypeAndValue(Token::TYPE_OPERATOR, '*'))) {
+            // ::getNext already gets rid of whitespaces and comments.
+            if (($next = $this->list->getNext()) !== null) {
+                if (($next->type === Token::TYPE_KEYWORD && in_array($next->value, array('FROM', 'USING'), true))
+                    || ($next->type === Token::TYPE_OPERATOR && in_array($next->value, array(',', ')'), true))
+                ) {
+                    $starToken->flags = Token::FLAG_OPERATOR_SQL;
+                }
+            }
+        }
+        $this->list->idx = $iBak;
     }
 
     /**
@@ -559,6 +592,19 @@ class Lexer extends Core
         if (++$this->last < $this->len) {
             $token .= $this->str[$this->last];
             if (Context::isComment($token)) {
+                // There might be a conflict with "*" operator here, when string is "*/*".
+                // This can occurs in the following statements:
+                // - "SELECT */* comment */ FROM ..."
+                // - "SELECT 2*/* comment */3 AS `six`;"
+                $next = $this->last+1;
+                if (($next < $this->len) && $this->str[$next] === '*') {
+                    // Conflict in "*/*": first "*" was not for ending a comment.
+                    // Stop here and let other parsing method define the true behavior of that first star.
+                    $this->last = $iBak;
+
+                    return null;
+                }
+
                 $flags = Token::FLAG_COMMENT_C;
 
                 // This comment already ended. It may be a part of a
@@ -817,6 +863,7 @@ class Lexer extends Core
      * @param string $quote additional starting symbol
      *
      * @return null|Token
+     * @throws LexerException
      */
     public function parseString($quote = '')
     {
@@ -862,6 +909,7 @@ class Lexer extends Core
      * Parses a symbol.
      *
      * @return null|Token
+     * @throws LexerException
      */
     public function parseSymbol()
     {

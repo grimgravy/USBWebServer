@@ -1,5 +1,28 @@
 # Change Log
 
+## [4.6.1] - 2020-03-20
+* Revert some changes with the understanding of ANSI_QUOTES mode and identifiers
+* Suggest motranslator 4.0 in README
+
+## [4.6.0] - 2020-03-20
+
+* Stop instanciating an object to check its class name. (#290)
+* Replace sscanf by equivalent native PHP functions because sscanf can be disabled for security reasons. (#270)
+* Allow phpunit 7
+* Fix for php error when "INSERT INTO x SET a = 1" is "INSERT INTO x SET = 1" (#295)
+* Fixed lexer fails to detect "*" as a wildcard (#288)
+* Fixed ANSI_QUOTES support (#284)
+* Fixed parser mistakes with comments (#156)
+
+## [4.5.0] - 2020-01-07
+
+* Fix ALTER TABLE ... PRIMARY/UNIQUE KEY results in error (#267)
+* Prevent overwrite of offset in Limit clause by parenthesis (#275)
+* Allow SCHEMA to be used in CREATE Database statement (#231)
+* Add missing options in SET statement (#255)
+* Add support for DROP USER statement (#259)
+* Fix php error "undefined index" when replacing a non existing clause (#249)
+
 ## [4.4.0] - 2019-11-12
 
 * Fix for PHP deprecations messages about implode for php 7.4+ (#258)

@@ -193,6 +193,7 @@ abstract class Statement
      *
      * @param Parser     $parser the instance that requests parsing
      * @param TokensList $list   the list of tokens to be parsed
+     * @throws Exceptions\ParserException
      */
     public function parse(Parser $parser, TokensList $list)
     {
@@ -407,12 +408,11 @@ abstract class Statement
             $this->after($parser, $list, $token);
 
             // #223 Here may make a patch, if last is delimiter, back one
-            if ($class !== null) {
-                if ((new $class()) instanceof FunctionCall) {
-                    if ($list->offsetGet($list->idx)->type === Token::TYPE_DELIMITER) {
-                        --$list->idx;
-                    }
-                }
+            // TODO: when not supporting PHP 5.3 anymore, replace this by FunctionCall::class.
+            if ($class === 'PhpMyAdmin\\SqlParser\\Components\\FunctionCall'
+                && $list->offsetGet($list->idx)->type === Token::TYPE_DELIMITER
+            ) {
+                --$list->idx;
             }
         }
 
@@ -473,6 +473,7 @@ abstract class Statement
      * @param TokensList $list   the list of tokens to be parsed
      *
      * @return bool
+     * @throws Exceptions\ParserException
      */
     public function validateClauseOrder($parser, $list)
     {

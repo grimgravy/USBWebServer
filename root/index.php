@@ -30,7 +30,7 @@
 		<div id="content">
 			<div id="contentleft">
 
-				<h1>USBWebserver V8.6.2</h1>
+				<h1>USBWebserver V8.6.4</h1>
 				<p>
 					<ul>
 						<li>14 different languages</li>
@@ -38,7 +38,7 @@
 						<li>Php <?php echo phpversion(); ?></li>
 						<li>Httpd <?php echo apache_get_version(); ?></li>
 						<li>PhpMyAdmin 4.7.5</li>
-						<li>MySQL 5.6.34</li>
+						<li>MySQL 5.7.29</li>
 					</ul>
 				</p>
 				<h1>PHP <?php echo phpversion(); ?> info</h1>

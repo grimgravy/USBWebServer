@@ -1,7 +1,6 @@
-PHP Warning:  PHP Startup: Unable to load dynamic library 'C:/Users/Alan/Documents/USBWebServer\\php\\ext\\php_curl.dll' - N\xef\xbf\xbdo foi poss\xef\xbf\xbdvel encontrar o m\xef\xbf\xbddulo especificado.\r\n in Unknown on line 0
-[Mon Dec 16 15:54:47.755923 2019] [mpm_winnt:notice] [pid 3216:tid 296] AH00455: Apache/2.4.29 (Win32) PHP/7.1.11 configured -- resuming normal operations
-[Mon Dec 16 15:54:47.755923 2019] [mpm_winnt:notice] [pid 3216:tid 296] AH00456: Server built: Nov  3 2017 01:01:54
-[Mon Dec 16 15:54:47.755923 2019] [core:notice] [pid 3216:tid 296] AH00094: Command line: 'C:\\Users\\Alan\\Documents\\USBWebServer/apache2/bin/httpd_usbwv8.exe -d C:/Users/Alan/Documents/USBWebServer/apache2'
-[Mon Dec 16 15:54:47.757923 2019] [mpm_winnt:notice] [pid 3216:tid 296] AH00418: Parent: Created child process 3220
-PHP Warning:  PHP Startup: Unable to load dynamic library 'C:/Users/Alan/Documents/USBWebServer\\php\\ext\\php_curl.dll' - N\xef\xbf\xbdo foi poss\xef\xbf\xbdvel encontrar o m\xef\xbf\xbddulo especificado.\r\n in Unknown on line 0
-[Mon Dec 16 15:54:48.415961 2019] [mpm_winnt:notice] [pid 3220:tid 324] AH00354: Child: Starting 64 worker threads.
+PHP Warning:  PHP Startup: Unable to load dynamic library 'php_curl.dll' (tried: C:/Users/Descom/Downloads/USBWebServer\\php\\ext\\php_curl.dll (N\xef\xbf\xbdo foi poss\xef\xbf\xbdvel encontrar o m\xef\xbf\xbddulo especificado.), C:/Users/Descom/Downloads/USBWebServer\\php\\ext\\php_php_curl.dll.dll (N\xef\xbf\xbdo foi poss\xef\xbf\xbdvel encontrar o m\xef\xbf\xbddulo especificado.)) in Unknown on line 0
+PHP Warning:  PHP Startup: Unable to load dynamic library 'php_pdo_pgsql.dll' (tried: C:/Users/Descom/Downloads/USBWebServer\\php\\ext\\php_pdo_pgsql.dll (N\xef\xbf\xbdo foi poss\xef\xbf\xbdvel encontrar o m\xef\xbf\xbddulo especificado.), C:/Users/Descom/Downloads/USBWebServer\\php\\ext\\php_php_pdo_pgsql.dll.dll (N\xef\xbf\xbdo foi poss\xef\xbf\xbdvel encontrar o m\xef\xbf\xbddulo especificado.)) in Unknown on line 0
+[Wed Jan 13 17:25:33.671953 2021] [mpm_winnt:notice] [pid 5052:tid 284] AH00455: Apache/2.4.43 (Win64) PHP/7.3.13 configured -- resuming normal operations
+[Wed Jan 13 17:25:33.671953 2021] [mpm_winnt:notice] [pid 5052:tid 284] AH00456: Apache Lounge VS16 Server built: Apr 21 2020 16:23:13
+[Wed Jan 13 17:25:33.671953 2021] [core:notice] [pid 5052:tid 284] AH00094: Command line: 'C:\\Users\\Descom\\Downloads\\USBWebServer/apache2/bin/httpd_usbwv8.exe -d C:/Users/Descom/Downloads/USBWebServer/apache2'
+[Wed Jan 13 17:25:33.681953 2021] [mpm_winnt:notice] [pid 5052:tid 284] AH00418: Parent: Created child process 1812
