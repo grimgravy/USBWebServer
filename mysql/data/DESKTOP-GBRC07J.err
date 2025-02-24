@@ -1,0 +1,114 @@
+2025-02-24T18:15:12.052930Z 0 [Warning] [MY-010918] [Server] 'default_authentication_plugin' is deprecated and will be removed in a future release. Please use authentication_policy instead.
+2025-02-24T18:15:12.052979Z 0 [System] [MY-013169] [Server] E:\server\test\USBWebServer\mysql\bin\mysqld.exe (mysqld 8.0.41) initializing of server in progress as process 10028
+2025-02-24T18:15:12.053147Z 0 [ERROR] [MY-010338] [Server] Can't find error-message file 'c:\xampp\mysql\share\errmsg.sys'. Check error-message file location and 'lc-messages-dir' configuration directive.
+2025-02-24T18:15:12.093015Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-02-24T18:15:12.982683Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-02-24T18:15:14.253005Z 0 [Warning] [MY-013829] [Server] Missing data directory for ICU regular expressions: c:\xampp\mysql\lib\private\.
+2025-02-24T18:15:15.391675Z 6 [Warning] [MY-010453] [Server] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.
+2025-02-24T18:15:15.663095Z 6 [Warning] [MY-013360] [Server] Plugin mysql_native_password reported: ''mysql_native_password' is deprecated and will be removed in a future release. Please use caching_sha2_password instead'
+2025-02-24T18:18:02.869491Z 0 [Warning] [MY-010915] [Server] 'NO_ZERO_DATE', 'NO_ZERO_IN_DATE' and 'ERROR_FOR_DIVISION_BY_ZERO' sql modes should be used with strict mode. They will be merged with strict mode in a future release.
+2025-02-24T18:18:02.870011Z 0 [System] [MY-010116] [Server] E:\server\test\USBWebServer/mysql/bin/mysqld_usbwv8.exe (mysqld 8.0.41) starting as process 8184
+2025-02-24T18:18:02.894963Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-02-24T18:18:03.514043Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-02-24T18:18:04.227733Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-02-24T18:18:04.228617Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-02-24T18:18:04.295719Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-02-24T18:18:04.295907Z 0 [System] [MY-010931] [Server] E:\server\test\USBWebServer/mysql/bin/mysqld_usbwv8.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-02-24T18:18:56.649469Z 8 [Warning] [MY-013360] [Server] Plugin mysql_native_password reported: ''mysql_native_password' is deprecated and will be removed in a future release. Please use caching_sha2_password instead'
+2025-02-24T18:19:39.822326Z 0 [Warning] [MY-010915] [Server] 'NO_ZERO_DATE', 'NO_ZERO_IN_DATE' and 'ERROR_FOR_DIVISION_BY_ZERO' sql modes should be used with strict mode. They will be merged with strict mode in a future release.
+2025-02-24T18:19:39.822805Z 0 [System] [MY-010116] [Server] E:\server\test\USBWebServer/mysql/bin/mysqld_usbwv8.exe (mysqld 8.0.41) starting as process 11576
+2025-02-24T18:19:39.849522Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-02-24T18:19:40.656621Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-02-24T18:19:41.107511Z 0 [System] [MY-010229] [Server] Starting XA crash recovery...
+2025-02-24T18:19:41.114050Z 0 [System] [MY-010232] [Server] XA crash recovery finished.
+2025-02-24T18:19:41.251030Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-02-24T18:19:41.251905Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-02-24T18:19:41.318817Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-02-24T18:19:41.318982Z 0 [System] [MY-010931] [Server] E:\server\test\USBWebServer/mysql/bin/mysqld_usbwv8.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-02-24T18:20:28.247694Z 8 [Warning] [MY-013360] [Server] Plugin mysql_native_password reported: ''mysql_native_password' is deprecated and will be removed in a future release. Please use caching_sha2_password instead'
+2025-02-24T18:39:53.496567Z 0 [Warning] [MY-010915] [Server] 'NO_ZERO_DATE', 'NO_ZERO_IN_DATE' and 'ERROR_FOR_DIVISION_BY_ZERO' sql modes should be used with strict mode. They will be merged with strict mode in a future release.
+2025-02-24T18:39:53.497142Z 0 [System] [MY-010116] [Server] C:\Users\Descon\Documents\USBWebServer/mysql/bin/mysqld_usbwv8.exe (mysqld 8.0.41) starting as process 11756
+2025-02-24T18:39:53.529606Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-02-24T18:39:54.604458Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-02-24T18:39:55.012735Z 0 [System] [MY-010229] [Server] Starting XA crash recovery...
+2025-02-24T18:39:55.019555Z 0 [System] [MY-010232] [Server] XA crash recovery finished.
+2025-02-24T18:39:55.171926Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-02-24T18:39:55.172970Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-02-24T18:39:55.239741Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-02-24T18:39:55.239927Z 0 [System] [MY-010931] [Server] C:\Users\Descon\Documents\USBWebServer/mysql/bin/mysqld_usbwv8.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-02-24T18:40:42.539691Z 8 [Warning] [MY-013360] [Server] Plugin mysql_native_password reported: ''mysql_native_password' is deprecated and will be removed in a future release. Please use caching_sha2_password instead'
+2025-02-24T18:45:20.766905Z 0 [Warning] [MY-010915] [Server] 'NO_ZERO_DATE', 'NO_ZERO_IN_DATE' and 'ERROR_FOR_DIVISION_BY_ZERO' sql modes should be used with strict mode. They will be merged with strict mode in a future release.
+2025-02-24T18:45:20.767474Z 0 [System] [MY-010116] [Server] C:\Users\Descon\Documents\USBWebServer/mysql/bin/mysqld_usbwv8.exe (mysqld 8.0.41) starting as process 5476
+2025-02-24T18:45:20.797773Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-02-24T18:45:21.887545Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-02-24T18:45:22.265669Z 0 [System] [MY-010229] [Server] Starting XA crash recovery...
+2025-02-24T18:45:22.272211Z 0 [System] [MY-010232] [Server] XA crash recovery finished.
+2025-02-24T18:45:22.426696Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-02-24T18:45:22.427720Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-02-24T18:45:22.493932Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-02-24T18:45:22.494005Z 0 [System] [MY-010931] [Server] C:\Users\Descon\Documents\USBWebServer/mysql/bin/mysqld_usbwv8.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-02-24T18:47:01.243352Z 0 [Warning] [MY-010915] [Server] 'NO_ZERO_DATE', 'NO_ZERO_IN_DATE' and 'ERROR_FOR_DIVISION_BY_ZERO' sql modes should be used with strict mode. They will be merged with strict mode in a future release.
+2025-02-24T18:47:01.243861Z 0 [System] [MY-010116] [Server] C:\Users\Descon\Documents\USBWebServer/mysql/bin/mysqld_usbwv8.exe (mysqld 8.0.41) starting as process 11948
+2025-02-24T18:47:01.274320Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-02-24T18:47:02.286576Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-02-24T18:47:02.715119Z 0 [System] [MY-010229] [Server] Starting XA crash recovery...
+2025-02-24T18:47:02.721856Z 0 [System] [MY-010232] [Server] XA crash recovery finished.
+2025-02-24T18:47:02.892759Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-02-24T18:47:02.893752Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-02-24T18:47:02.962586Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-02-24T18:47:02.962687Z 0 [System] [MY-010931] [Server] C:\Users\Descon\Documents\USBWebServer/mysql/bin/mysqld_usbwv8.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-02-24T18:47:50.285296Z 8 [Warning] [MY-013360] [Server] Plugin mysql_native_password reported: ''mysql_native_password' is deprecated and will be removed in a future release. Please use caching_sha2_password instead'
+2025-02-24T18:49:11.010399Z 0 [Warning] [MY-010915] [Server] 'NO_ZERO_DATE', 'NO_ZERO_IN_DATE' and 'ERROR_FOR_DIVISION_BY_ZERO' sql modes should be used with strict mode. They will be merged with strict mode in a future release.
+2025-02-24T18:49:11.010905Z 0 [System] [MY-010116] [Server] C:\Users\Descon\Documents\USBWebServer/mysql/bin/mysqld_usbwv8.exe (mysqld 8.0.41) starting as process 4716
+2025-02-24T18:49:11.040975Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-02-24T18:49:12.056741Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-02-24T18:49:12.463712Z 0 [System] [MY-010229] [Server] Starting XA crash recovery...
+2025-02-24T18:49:12.470355Z 0 [System] [MY-010232] [Server] XA crash recovery finished.
+2025-02-24T18:49:12.624341Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-02-24T18:49:12.625319Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-02-24T18:49:12.706400Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-02-24T18:49:12.706740Z 0 [System] [MY-010931] [Server] C:\Users\Descon\Documents\USBWebServer/mysql/bin/mysqld_usbwv8.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-02-24T18:49:21.628840Z 8 [Warning] [MY-013360] [Server] Plugin mysql_native_password reported: ''mysql_native_password' is deprecated and will be removed in a future release. Please use caching_sha2_password instead'
+2025-02-24T18:50:32.463955Z 0 [Warning] [MY-010915] [Server] 'NO_ZERO_DATE', 'NO_ZERO_IN_DATE' and 'ERROR_FOR_DIVISION_BY_ZERO' sql modes should be used with strict mode. They will be merged with strict mode in a future release.
+2025-02-24T18:50:32.464462Z 0 [System] [MY-010116] [Server] C:\Users\Descon\Documents\USBWebServer/mysql/bin/mysqld_usbwv8.exe (mysqld 8.0.41) starting as process 10772
+2025-02-24T18:50:32.495378Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-02-24T18:50:33.509224Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-02-24T18:50:33.930043Z 0 [System] [MY-010229] [Server] Starting XA crash recovery...
+2025-02-24T18:50:33.936696Z 0 [System] [MY-010232] [Server] XA crash recovery finished.
+2025-02-24T18:50:34.099364Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-02-24T18:50:34.100439Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-02-24T18:50:34.169034Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-02-24T18:50:34.169215Z 0 [System] [MY-010931] [Server] C:\Users\Descon\Documents\USBWebServer/mysql/bin/mysqld_usbwv8.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-02-24T18:52:01.497672Z 8 [Warning] [MY-013360] [Server] Plugin mysql_native_password reported: ''mysql_native_password' is deprecated and will be removed in a future release. Please use caching_sha2_password instead'
+2025-02-24T18:53:59.463351Z 0 [Warning] [MY-010915] [Server] 'NO_ZERO_DATE', 'NO_ZERO_IN_DATE' and 'ERROR_FOR_DIVISION_BY_ZERO' sql modes should be used with strict mode. They will be merged with strict mode in a future release.
+2025-02-24T18:53:59.463875Z 0 [System] [MY-010116] [Server] C:\Users\Descon\Documents\USBWebServer/mysql/bin/mysqld_usbwv8.exe (mysqld 8.0.41) starting as process 11648
+2025-02-24T18:53:59.494799Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-02-24T18:54:00.505019Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-02-24T18:54:00.914565Z 0 [System] [MY-010229] [Server] Starting XA crash recovery...
+2025-02-24T18:54:00.921400Z 0 [System] [MY-010232] [Server] XA crash recovery finished.
+2025-02-24T18:54:01.099986Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-02-24T18:54:01.101045Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-02-24T18:54:01.173709Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-02-24T18:54:01.173813Z 0 [System] [MY-010931] [Server] C:\Users\Descon\Documents\USBWebServer/mysql/bin/mysqld_usbwv8.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-02-24T18:54:14.826014Z 8 [Warning] [MY-013360] [Server] Plugin mysql_native_password reported: ''mysql_native_password' is deprecated and will be removed in a future release. Please use caching_sha2_password instead'
+2025-02-24T19:03:09.244505Z 0 [Warning] [MY-010915] [Server] 'NO_ZERO_DATE', 'NO_ZERO_IN_DATE' and 'ERROR_FOR_DIVISION_BY_ZERO' sql modes should be used with strict mode. They will be merged with strict mode in a future release.
+2025-02-24T19:03:09.245037Z 0 [System] [MY-010116] [Server] C:\Users\Descon\Documents\USBWebServer/mysql/bin/mysqld_usbwv8.exe (mysqld 8.0.41) starting as process 3012
+2025-02-24T19:03:09.273141Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-02-24T19:03:10.256753Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-02-24T19:03:10.713061Z 0 [System] [MY-010229] [Server] Starting XA crash recovery...
+2025-02-24T19:03:10.720720Z 0 [System] [MY-010232] [Server] XA crash recovery finished.
+2025-02-24T19:03:10.889400Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-02-24T19:03:10.890434Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-02-24T19:03:10.956525Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-02-24T19:03:10.956710Z 0 [System] [MY-010931] [Server] C:\Users\Descon\Documents\USBWebServer/mysql/bin/mysqld_usbwv8.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-02-24T19:04:49.544637Z 0 [Warning] [MY-010915] [Server] 'NO_ZERO_DATE', 'NO_ZERO_IN_DATE' and 'ERROR_FOR_DIVISION_BY_ZERO' sql modes should be used with strict mode. They will be merged with strict mode in a future release.
+2025-02-24T19:04:49.545237Z 0 [System] [MY-010116] [Server] C:\Users\Descon\Pictures\USBWebServer/mysql/bin/mysqld_usbwv8.exe (mysqld 8.0.41) starting as process 14212
+2025-02-24T19:04:49.577156Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-02-24T19:04:51.474023Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-02-24T19:04:51.777468Z 0 [System] [MY-010229] [Server] Starting XA crash recovery...
+2025-02-24T19:04:51.784745Z 0 [System] [MY-010232] [Server] XA crash recovery finished.
+2025-02-24T19:04:51.943074Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-02-24T19:04:51.944077Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-02-24T19:04:52.011793Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060
+2025-02-24T19:04:52.011967Z 0 [System] [MY-010931] [Server] C:\Users\Descon\Pictures\USBWebServer/mysql/bin/mysqld_usbwv8.exe: ready for connections. Version: '8.0.41'  socket: ''  port: 3306  MySQL Community Server - GPL.
+2025-02-24T19:05:03.049445Z 8 [Warning] [MY-013360] [Server] Plugin mysql_native_password reported: ''mysql_native_password' is deprecated and will be removed in a future release. Please use caching_sha2_password instead'
