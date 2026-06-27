@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@babel/cli": "^7.28.3",
-    "@babel/core": "^7.28.3",
+    "@babel/core": "^7.29.6",
     "@babel/preset-env": "^7.28.3",
     "@popperjs/core": "^2.11.8",
     "@zxcvbn-ts/core": "^2.0.1",
